@@ -1,0 +1,30 @@
+.header{
+    display: grid;
+    grid-template-columns: 180px 1fr 180px;
+    align-items: center;
+    gap: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logotype{
+    border: 1px solid black;
+}
+
+.search-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-group button{
+    height: 30px;
+    font-size: 14px;
+    border-radius: 12px;
+}
+
+input[type="search"]{
+    height: 40px;
+    border-radius: 12px;
+    font-size: medium;
+}
