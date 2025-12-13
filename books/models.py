@@ -1,10 +1,10 @@
 from django.db import models
 
-class Country(models.Model):
-    name = models.CharField(max_length=80)
+class PlacePublishing(models.Model):
+    place_name = models.CharField(max_length=80)
 
     class Meta:
-        db_table = 'countries'
+        db_table = 'place_publishing'
 
 class Author(models.Model):
     first_name = models.CharField(max_length=80)
@@ -14,12 +14,24 @@ class Author(models.Model):
     class Meta:
         db_table = 'authors'
 
+class BookPlacePublishing(models.Model):
+    book = models.ForeignKey(
+        'Book',
+        on_delete=models.CASCADE,
+        db_column='book_id',
+    )
+    place_publishing = models.ForeignKey(
+        'PlacePublishing',
+        on_delete=models.CASCADE,
+        db_column='place_publishing_id',
+    )
+
 class Book(models.Model):
     name = models.CharField(max_length=80)
-    country = models.ForeignKey(
-        'Country',
+    place_publishing = models.ForeignKey(
+        'BookPlacePublishing',
         on_delete=models.SET_NULL,
-        db_column='county_id',
+        db_column='place_publishing_id',
         null=True #Ограничение null=True -> поле может принимать NULL 
     )
     date = models.DateField()
