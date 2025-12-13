@@ -14,27 +14,14 @@ class Author(models.Model):
     class Meta:
         db_table = 'authors'
 
-class BookPlacePublishing(models.Model):
-    book = models.ForeignKey(
-        'Book',
-        on_delete=models.CASCADE,
-        db_column='book_id',
-    )
-    place_publishing = models.ForeignKey(
-        'PlacePublishing',
-        on_delete=models.CASCADE,
-        db_column='place_publishing_id',
-    )
-
 class Book(models.Model):
     name = models.CharField(max_length=80)
-    place_publishing = models.ForeignKey(
-        'BookPlacePublishing',
-        on_delete=models.SET_NULL,
-        db_column='place_publishing_id',
-        null=True #Ограничение null=True -> поле может принимать NULL 
-    )
     date = models.DateField()
+    place_publishing = models.ForeignKey(
+        'PlacePublishing',
+        on_delete=models.PROTECT,
+        db_column='place_publishing_id'
+    )
 
     class Meta:
         db_table = 'books'
