@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <title>Personal Collection</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
     <div class="header">
@@ -19,12 +19,14 @@
 
 
     <div class="main">
-        {% if user_id %}
+        <div class="user-welcome">
             <h4>Добро пожаловать, {{username}}!</h4>
-        {% else %}
-            <h4>Добро пожаловать, Гость!</h4>
-            <p><a href="/">Зарегистрируйтесь</a> или <a href="/Authorization">войдите</a></p>
-        {% endif %}
+            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Выйти</button>
+            </form>
+        </div>
+        
         <div class="list">
             <h3>В процессе чтения:</h3>
             <ol>

@@ -1,3 +1,4 @@
+/*Стили макета главной страницы:*/
 .header{
     display: grid;
     grid-template-columns: 180px 1fr 180px;
@@ -50,4 +51,33 @@ input[type="search"]{
 
 .list{
     border: 1px solid black;
+}
+
+
+/* Стили для блока пользователя */
+.user-welcome {
+    background: #f8f9fa;      /* Светло-серый фон */
+    padding: 15px;            /* Внутренние отступы со всех сторон */
+    border-radius: 8px;       /* Скругленные углы */
+    margin-bottom: 20px;      /* Отступ снизу для следующего элемента */
+    border-left: 4px solid #007bff; /* Синяя полоса слева */
+}
+
+.logout-btn {
+    background: #dc3545;      /* Красный цвет Bootstrap danger */
+    color: white;             /* Белый текст */
+    border: none;             /* Убираем стандартную рамку кнопки */
+    padding: 8px 20px;        /* Вертикальные 8px, горизонтальные 20px */
+    border-radius: 5px;       /* Слегка скругленные углы */
+    cursor: pointer;          /* Курсор в виде руки при наведении */
+    font-size: 14px;          /* Размер шрифта */
+    transition: background 0.3s; /* Плавное изменение фона за 0.3 секунды */
+    display: inline-block;    /* Кнопка как блочно-строчный элемент */
+    margin-top: 10px;         /* Отступ сверху от предыдущего элемента */
+}
+
+.logout-btn:hover {
+    background: #c82333;      /* Темно-красный цвет при наведении */
+    transform: translateY(-1px); /* Поднимаем кнопку на 1px вверх */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Легкая тень */
 }

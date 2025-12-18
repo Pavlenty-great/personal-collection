@@ -22,7 +22,7 @@ def registration(request):
                 password=password
             )
 
-            return redirect('core/')
+            return redirect('index')
 
         except Exception as e:
             return render(request, 'registration.html', {'Error': f'Ошибка при регистрации: {str(e)}'})
@@ -45,7 +45,7 @@ def authorization(request):
                 #Сохраняем ID пользователя в сессии
                 request.session['user_id'] = user.id
                 request.session['user_login'] = user.login
-                return redirect('core/')
+                return redirect('index')
             else:
                 return render(request, 'authorization.html', {'error': 'Пользователь не найден'})
             
@@ -56,3 +56,10 @@ def authorization(request):
             return render(request, 'authorization.html', {'error': f'Ошибка: {str(e)}'})
         
     return render(request, 'authorization.html')
+
+
+def logout_view(request):
+    #Очищаем сессию:
+    request.session.flush()
+
+    return redirect('login')
