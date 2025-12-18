@@ -13,14 +13,13 @@
 
 .modal-content {
     background: white;
-    width: 450px;
+    width: 500px; /* Увеличили ширину */
+    max-height: 90vh;
+    overflow-y: auto;
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .modal h1 {
@@ -29,6 +28,29 @@
     font-size: 22px;
     text-align: center;
     width: 100%;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section h3 {
+    margin: 0 0 15px 0;
+    color: #555;
+    font-size: 16px;
+}
+
+.author-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
 }
 
 .close {
@@ -47,28 +69,28 @@
 .modal form {
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin: 20px 0;
     width: 100%;
 }
 
 .modal label {
     display: block;
-    text-align: center;
+    text-align: left;
     width: 100%;
     margin: 10px 0 5px;
     font-weight: bold;
     color: #555;
+    font-size: 14px;
 }
 
 .modal input {
-    width: 80%;
+    width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
-    text-align: center;
+    box-sizing: border-box;
 }
 
 .modal input:focus {
@@ -105,6 +127,12 @@
     transform: translateY(-2px);
 }
 
+.add-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .close-button {
     background: #757575;
     color: white;
@@ -113,4 +141,19 @@
 .close-button:hover {
     background: #616161;
     transform: translateY(-2px);
+}
+
+/* Обязательные поля */
+label[required]::after {
+    content: " *";
+    color: red;
+}
+
+/* Сообщения */
+.messages {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
 }

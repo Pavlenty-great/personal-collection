@@ -13,21 +13,54 @@
             <h1>Добавление книги</h1>
             <span class="close">&times;</span>
 
-            <form action="" method="POST">
-                <label for="bookName">Название книги:</label>
-                <input type="text" id="bookName" placeholder="Введите название без кавычек">
+            <form action="" method="POST" id="addBookForm">
+                {% csrf_token %}
                 
-                <label for="bookAuthor">Автор:</label>
-                <input type="text" id="bookAuthor" placeholder="Введите ФИО автора">
+                <!-- Основная информация о книге -->
+                <div class="form-section">
+                    <h3>Информация о книге</h3>
+                    
+                    <label for="bookName">Название книги:*</label>
+                    <input type="text" id="bookName" name="bookName" 
+                           placeholder="Введите название без кавычек" required>
+                    
+                    <label for="bookYear">Год издания:*</label>
+                    <input type="text" id="bookYear" name="bookYear" 
+                           placeholder="Введите год издания (4 цифры)" 
+                           pattern="\d{4}" maxlength="4" required>
+                    
+                    <label for="bookPlace">Место публикации:*</label>
+                    <input type="text" id="bookPlace" name="bookPlace" 
+                           placeholder="Введите место публикации" required>
+                </div>
                 
-                <label for="bookDate">Год издания:</label>
-                <input type="text" id="bookDate" placeholder="Введите год издания">
-                
-                <label for="bookPlace">Место публикации:</label>
-                <input type="text" id="bookPlace" placeholder="Введите место публикации">
+                <!-- Информация об авторе -->
+                <div class="form-section">
+                    <h3>Информация об авторе</h3>
+                    
+                    <div class="author-fields">
+                        <div class="field-group">
+                            <label for="authorLastName">Фамилия:*</label>
+                            <input type="text" id="authorLastName" name="authorLastName" 
+                                   placeholder="Фамилия автора" required>
+                        </div>
+                        
+                        <div class="field-group">
+                            <label for="authorFirstName">Имя:*</label>
+                            <input type="text" id="authorFirstName" name="authorFirstName" 
+                                   placeholder="Имя автора" required>
+                        </div>
+                        
+                        <div class="field-group">
+                            <label for="authorMiddleName">Отчество:</label>
+                            <input type="text" id="authorMiddleName" name="authorMiddleName" 
+                                   placeholder="Отчество автора (необязательно)">
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="button-container">
-                    <button type="button" class="add-button">Добавить</button>
+                    <button type="submit" class="add-button">Добавить книгу</button>
                     <button type="button" class="close-button" id="closeModalBtn">Закрыть</button>
                 </div>
             </form>
