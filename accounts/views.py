@@ -56,10 +56,10 @@ def authorization(request):
             return render(request, 'authorization.html', {'error': f'Ошибка: {str(e)}'})
         
     return render(request, 'authorization.html')
-
+    
 
 def logout_view(request):
     #Очищаем сессию:
     request.session.flush()
-
+    
     return redirect('login')
