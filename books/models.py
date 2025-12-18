@@ -16,11 +16,12 @@ class Author(models.Model):
 
 class Book(models.Model):
     name = models.CharField(max_length=80)
-    date = models.DateField()
+    year = models.CharField(max_length=4)
     place_publishing = models.ForeignKey(
         'PlacePublishing',
         on_delete=models.PROTECT,
-        db_column='place_publishing_id'
+        db_column='place_publishing_id',
+        null=True
     )
 
     class Meta:
