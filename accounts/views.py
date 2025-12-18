@@ -42,13 +42,17 @@ def authorization(request):
         try:
             user = User.objects.get(login=login)
             if password == user.password:
-                print('rere')
-                print('rere')
+                #Сохраняем ID пользователя в сессии
+                request.session['user_id'] = user.id
+                request.session['user_login'] = user.login
                 return redirect('core/')
+            else:
+                return render(request, 'authorization.html', {'error': 'Пользователь не найден'})
             
-            
-        except Exception as e:
+        except User.DoesNotExist:
             return render(request, 'authorization.html', 
-                         {'Error': f'Ошибка при авторизации: {str(e)}'})
+                         {'error': 'Пользователь не найден'})
+        except Exception as e:
+            return render(request, 'authorization.html', {'error': f'Ошибка: {str(e)}'})
         
     return render(request, 'authorization.html')

@@ -13,7 +13,7 @@
             <h1>Добавление книги</h1>
             <span class="close">&times;</span>
 
-            <form action="">
+            <form action="" method="POST">
                 <label for="bookName">Название книги:</label>
                 <input type="text" id="bookName" placeholder="Введите название без кавычек">
                 
@@ -34,6 +34,6 @@
         </div>
     </div>
     
-    <script src="../static/js/add_book.js"></script>
+    <script src="{% static 'js/add_book.js' %}"></script>
 </body>
 </html>
