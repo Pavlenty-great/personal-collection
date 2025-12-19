@@ -5,36 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add book</title>
-    <link rel="stylesheet" href="{% static "css/add_book.css" %}">
+    <link rel="stylesheet" href="{% static 'css/add_book.css' %}">
 </head>
 <body>
     <div id="bookModal" class="modal">
         <div class="modal-content">
-            <h1>Добавление книги</h1>
+            <h1>📚 Добавление книги</h1>
             <span class="close">&times;</span>
 
-            <form action="" method="POST" id="addBookForm">
+            <!-- Сообщения об ошибках/успехе -->
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form action="{% url 'add_book' %}" method="POST" id="addBookForm">
                 {% csrf_token %}
                 
-                <!-- Основная информация о книге -->
                 <div class="form-section">
                     <h3>Информация о книге</h3>
                     
                     <label for="bookName">Название книги:*</label>
                     <input type="text" id="bookName" name="bookName" 
-                           placeholder="Введите название без кавычек" required>
+                           placeholder="Введите название" required maxlength="80">
                     
                     <label for="bookYear">Год издания:*</label>
                     <input type="text" id="bookYear" name="bookYear" 
-                           placeholder="Введите год издания (4 цифры)" 
-                           pattern="\d{4}" maxlength="4" required>
+                           placeholder="Например: 2023" pattern="\d{4}" 
+                           maxlength="4" required title="4 цифры года">
                     
                     <label for="bookPlace">Место публикации:*</label>
                     <input type="text" id="bookPlace" name="bookPlace" 
-                           placeholder="Введите место публикации" required>
+                           placeholder="Например: Москва" required maxlength="80">
                 </div>
                 
-                <!-- Информация об авторе -->
                 <div class="form-section">
                     <h3>Информация об авторе</h3>
                     
@@ -42,26 +51,26 @@
                         <div class="field-group">
                             <label for="authorLastName">Фамилия:*</label>
                             <input type="text" id="authorLastName" name="authorLastName" 
-                                   placeholder="Фамилия автора" required>
+                                   placeholder="Иванов" required maxlength="80">
                         </div>
                         
                         <div class="field-group">
                             <label for="authorFirstName">Имя:*</label>
                             <input type="text" id="authorFirstName" name="authorFirstName" 
-                                   placeholder="Имя автора" required>
+                                   placeholder="Иван" required maxlength="80">
                         </div>
                         
                         <div class="field-group">
                             <label for="authorMiddleName">Отчество:</label>
                             <input type="text" id="authorMiddleName" name="authorMiddleName" 
-                                   placeholder="Отчество автора (необязательно)">
+                                   placeholder="Иванович (необязательно)" maxlength="80">
                         </div>
                     </div>
                 </div>
                 
                 <div class="button-container">
-                    <button type="submit" class="add-button">Добавить книгу</button>
-                    <button type="button" class="close-button" id="closeModalBtn">Закрыть</button>
+                    <button type="submit" class="add-button" id="submitBtn">📥 Добавить книгу</button>
+                    <button type="button" class="close-button" id="closeModalBtn">✖ Закрыть</button>
                 </div>
             </form>
         </div>
