@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Книга: {{ book.book_name }}</title>
+    <link rel="stylesheet" href="{% static 'css/book_detail.css' %}">
+</head>
+<body>
+    <!-- Кнопка назад -->
+    <a href="{% url 'index' %}" class="back-link">← Назад к списку</a>
+    
+    <!-- Заголовок с информацией о книге -->
+    <div class="header">
+        <h1 class="book-title">"{{ book.book_name }}"</h1>
+        <div class="book-meta">
+            <strong>Автор:</strong> {{ book.authors_list }}<br>
+            <strong>Год издания:</strong> {{ book.book_year }}<br>
+            <strong>Место публикации:</strong> {{ book.place_name }}
+        </div>
+    </div>
+    
+    <!-- Секция заметок -->
+    <div class="notes-section">
+        <!-- Просмотр существующих заметок -->
+        <div class="notes-view-section">
+            <h2 class="section-title">Заметки к книге</h2>
+            <div class="notes-view">
+                <!-- Здесь будут заметки -->
+                <div class="empty-notes">
+                    Пока нет заметок. Добавьте первую!
+                </div>
+                <!-- Пример заметки (закомментирован) -->
+                <!--
+                <div style="margin-bottom: 15px; padding: 10px; background: #fff; border-left: 3px solid #007bff;">
+                    <div style="color: #666; font-size: 12px; margin-bottom: 5px;">
+                        <strong>Тип:</strong> Цитата • 
+                        <strong>Дата:</strong> 20.12.2025
+                    </div>
+                    <div>Текст заметки...</div>
+                </div>
+                -->
+            </div>
+        </div>
+        
+        <!-- Добавление новой заметки -->
+        <div class="notes-add-section">
+            <h2 class="section-title">Добавить заметку</h2>
+            <div class="notes-add">
+                <form method="POST" action="#">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="note_type">Тип заметки:</label>
+                        <select id="note_type" name="note_type" required>
+                            <option value="">Выберите тип...</option>
+                            <option value="quote">Цитата</option>
+                            <option value="review">Рецензия</option>
+                            <option value="thought">Мысль</option>
+                            <option value="question">Вопрос</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="custom_type">Или введите свой тип:</label>
+                        <input type="text" id="custom_type" name="custom_type" 
+                               placeholder="Например: анализ персонажа">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="note_text">Текст заметки:</label>
+                        <textarea id="note_text" name="note_text" 
+                                  placeholder="Введите текст заметки..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Добавить заметку</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Простой скрипт для выбора типа заметки -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const noteTypeSelect = document.getElementById('note_type');
+            const customTypeInput = document.getElementById('custom_type');
+            
+            // Показываем/скрываем поле для своего типа
+            noteTypeSelect.addEventListener('change', function() {
+                if (this.value === 'other') {
+                    customTypeInput.style.display = 'block';
+                    customTypeInput.required = true;
+                } else {
+                    customTypeInput.style.display = 'none';
+                    customTypeInput.required = false;
+                    customTypeInput.value = '';
+                }
+            });
+            
+            // Инициализация
+            if (noteTypeSelect.value === 'other') {
+                customTypeInput.style.display = 'block';
+            }
+            
+            // Обработка отправки формы (пока только сообщение)
+            document.querySelector('form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Функция добавления заметки будет реализована позже');
+                // Очищаем форму
+                this.reset();
+                customTypeInput.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

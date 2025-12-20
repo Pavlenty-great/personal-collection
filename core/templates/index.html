@@ -47,7 +47,7 @@
                             id="book_{{ book.book_id }}"
                         >
                         
-                        <a href="#" class="book-title">
+                        <a href="{% url 'book_detail' book.book_id %}" class="book-title">
                             "{{ book.book_name }}"
                         </a>
                         <span class="book-meta">

@@ -117,3 +117,40 @@ def delete_books(request):
         messages.error(request, f'❌ Ошибка: {str(e)}')
     
     return redirect('index')
+
+
+def book_detail(request, book_id):
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        messages.error(request, 'Необходимо авторизоваться')
+        return redirect('login')
+    
+    try:
+        # Проверяем, что книга принадлежит пользователю и получаем данные
+        with connection.cursor() as cursor:
+            # Используем нашу функцию или прямой запрос
+            cursor.execute("""
+                SELECT * FROM get_user_books(%s)
+                WHERE book_id = %s
+            """, [user_id, book_id])
+            
+            result = cursor.fetchone()
+            
+            if not result:
+                messages.error(request, 'Книга не найдена')
+                return redirect('index')
+            
+            # Преобразуем в словарь
+            columns = [col[0] for col in cursor.description]
+            book = dict(zip(columns, result))
+            
+            context = {
+                'book': book,
+            }
+            
+            return render(request, 'book_detail.html', context)
+            
+    except Exception as e:
+        messages.error(request, f'Ошибка: {str(e)}')
+        return redirect('index')
