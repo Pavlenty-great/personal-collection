@@ -28,19 +28,34 @@
         </div>
         
         <div class="list">
-            <h3>В процессе чтения:</h3>
-            <ol>
-                <li>
-                    <a href="">"Записки из мертвого дома", Ф.М. Достоевский, 1873</a>
-                </li>
-                <li>
-                    <a href="">Вторая книга</a>
-                </li>
-                <li>
-                    <a href="">Третья книга</a>
-                </li>
-            </ol>
+            <h3>Ваши книги ({{ user_books|length }}):</h3>
+            
+            {% if user_books %}
+                <ol>
+                    {% for book in user_books %}
+                    <li style="margin-bottom: 15px;">
+                        <!-- Ссылка на детальную страницу книги (можно сделать позже) -->
+                        <a href="#" style="
+                            color: #007bff;
+                            text-decoration: none;
+                            font-weight: bold;
+                        ">
+                            "{{ book.book_name }}"
+                        </a>
+                        <span style="color: #666; font-size: 0.9em;">
+                            {{ book.author_display_name }}, {{ book.book_year }}
+                            {% if book.place_name %}
+                                ({{ book.place_name }})
+                            {% endif %}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <p style="color: #666; font-style: italic;">У вас пока нет книг в коллекции.</p>
+            {% endif %}
         </div>
+
         <button id="openModalBtn">Добавить книгу</button>
 
         {% include 'add_book.html' %}
