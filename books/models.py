@@ -20,12 +20,12 @@ class Book(models.Model):
     place_publishing = models.ForeignKey(
         'PlacePublishing',
         on_delete=models.PROTECT,
-        db_column='place_publishing_id',
-        null=True
+        db_column='place_publishing_id'
     )
 
     class Meta:
-        db_table = 'books'
+        db_table = 'books',
+        unique_together = ['name', 'year', 'place_publishing']
 
 class UserBook(models.Model):
     user = models.ForeignKey( #User будет хранить объект связанной модели

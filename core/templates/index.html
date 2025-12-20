@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Collection</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/books.css' %}">
 </head>
 <body>
     <div class="header">
@@ -18,32 +19,39 @@
     </div>
 
 
-    <div class="main">
-        <div class="user-welcome">
-            <h4>Добро пожаловать, {{username}}!</h4>
-            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">Выйти</button>
-            </form>
-        </div>
+<div class="main">
+    <div class="user-welcome">
+        <h4>Добро пожаловать, {{ username }}!</h4>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Выйти</button>
+        </form>
+    </div>
         
-        <div class="list">
-            <h3>Ваши книги ({{ user_books|length }}):</h3>
+
+    <div class="list">
+        <h3>Ваши книги ({{ user_books|length }}):</h3>
+        
+        <form id="deleteBooksForm" method="POST" action="{% url 'delete_books' %}">
+            {% csrf_token %}
             
             {% if user_books %}
                 <ol>
                     {% for book in user_books %}
-                    <li style="margin-bottom: 15px;">
-                        <!-- Ссылка на детальную страницу книги (можно сделать позже) -->
-                        <a href="#" style="
-                            color: #007bff;
-                            text-decoration: none;
-                            font-weight: bold;
-                        ">
+                    <li class="book-item">
+                        <input 
+                            type="checkbox" 
+                            class="book-checkbox"
+                            name="book_ids" 
+                            value="{{ book.book_id }}"
+                            id="book_{{ book.book_id }}"
+                        >
+                        
+                        <a href="#" class="book-title">
                             "{{ book.book_name }}"
                         </a>
-                        <span style="color: #666; font-size: 0.9em;">
-                            {{ book.author_display_name }}, {{ book.book_year }}
+                        <span class="book-meta">
+                            {{ book.authors_list }}, {{ book.book_year }}
                             {% if book.place_name %}
                                 ({{ book.place_name }})
                             {% endif %}
@@ -51,15 +59,71 @@
                     </li>
                     {% endfor %}
                 </ol>
+                
+                <div class="selection-panel">
+                    <label class="select-all-label">
+                        <input 
+                            type="checkbox" 
+                            id="selectAll"
+                            style="margin-right: 8px;"
+                        >
+                        Выбрать все
+                    </label>
+                    
+                    <button 
+                        type="submit" 
+                        id="deleteSelectedBtn"
+                        class="delete-button"
+                    >
+                        Удалить выбранные
+                    </button>
+                </div>
+                
             {% else %}
-                <p style="color: #666; font-style: italic;">У вас пока нет книг в коллекции.</p>
+                <div class="empty-collection">
+                    <p>У вас пока нет книг в коллекции</p>
+                    <button id="openModalBtn" class="add-first-btn">
+                        Добавьте первую книгу!
+                    </button>
+                </div>
             {% endif %}
-        </div>
-
-        <button id="openModalBtn">Добавить книгу</button>
-
-        {% include 'add_book.html' %}
+        </form>
     </div>
+        
+        <!-- Кнопка добавления книги -->
+        <button id="openModalBtn" style="
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        ">
+            📥 Добавить книгу
+        </button>
+        
+        {% include 'add_book.html' %}
+</div>
 
+    <!-- Сообщения Django -->
+    {% if messages %}
+    <div style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    ">
+        {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <script src="{% static 'js/books.js' %}"></script>
+    <script src="{% static 'js/add_book.js' %}"></script>
 </body>
 </html>

@@ -1,0 +1,76 @@
+/* Основные стили для книг */
+.book-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.book-checkbox {
+    margin-right: 15px;
+    width: 18px;
+    height: 18px;
+}
+
+.book-title {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.book-title:hover {
+    color: #007bff;
+}
+
+.book-meta {
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* Панель выбора */
+.selection-panel {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-all-label {
+    cursor: pointer;
+    color: #555;
+}
+
+.delete-button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+}
+
+.delete-button:hover {
+    background: #c82333;
+}
+
+/* Пустая коллекция */
+.empty-collection {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+    font-style: italic;
+}
+
+.add-first-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+}

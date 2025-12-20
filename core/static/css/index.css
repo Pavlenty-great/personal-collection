@@ -64,7 +64,7 @@ input[type="search"]{
 }
 
 .logout-btn {
-    background: #dc3545;      /* Красный цвет Bootstrap danger */
+    background: gray;      /* Красный цвет Bootstrap danger */
     color: white;             /* Белый текст */
     border: none;             /* Убираем стандартную рамку кнопки */
     padding: 8px 20px;        /* Вертикальные 8px, горизонтальные 20px */
