@@ -14,6 +14,9 @@ DECLARE
     v_author_id INTEGER;
     v_existing_book_id INTEGER;
 BEGIN
+    -- Устанавливаем текущего пользователя для аудита
+    PERFORM set_current_user(p_user_id);
+
     -- 0. ПРОВЕРЯЕМ: Может книга уже есть у пользователя?
     SELECT b.id INTO v_existing_book_id
     FROM books b

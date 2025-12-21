@@ -18,6 +18,9 @@ DECLARE
     v_updated_count INTEGER := 0;
     v_book_exists BOOLEAN;
 BEGIN
+    -- Устанавливаем текущего пользователя для аудита
+    PERFORM set_current_user(p_user_id);
+    
     -- 1. Проверяем, что книга принадлежит пользователю
     SELECT EXISTS (
         SELECT 1 

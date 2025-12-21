@@ -7,6 +7,9 @@ DECLARE
     v_deleted_count INTEGER := 0;
     v_book_id BIGINT;
 BEGIN
+    -- Устанавливаем текущего пользователя для аудита
+    PERFORM set_current_user(p_user_id);
+    
     -- Проверяем входные данные
     IF p_book_ids IS NULL OR array_length(p_book_ids, 1) = 0 THEN
         RAISE NOTICE 'Массив ID книг пуст';

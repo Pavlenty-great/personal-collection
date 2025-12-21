@@ -9,6 +9,9 @@ DECLARE
     v_note_id INTEGER;
     v_has_access BOOLEAN;
 BEGIN
+    -- Устанавливаем текущего пользователя для аудита
+    PERFORM set_current_user(p_user_id);
+
     -- 1. Проверяем, что книга принадлежит пользователю
     SELECT EXISTS (
         SELECT 1 FROM user_books 

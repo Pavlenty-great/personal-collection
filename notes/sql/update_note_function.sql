@@ -10,6 +10,9 @@ DECLARE
     v_updated_count INTEGER := 0;
     v_current_type_id INTEGER;
 BEGIN
+    -- Устанавливаем текущего пользователя для аудита
+    PERFORM set_current_user(p_user_id);
+    
     -- 1. Проверяем, что заметка принадлежит пользователю
     -- (через связь с книгой пользователя)
     SELECT EXISTS (

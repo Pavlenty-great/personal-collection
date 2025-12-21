@@ -1,0 +1,3 @@
+CREATE OR REPLACE TRIGGER trg_user_books_audit
+AFTER INSERT OR UPDATE OR DELETE ON user_books
+FOR EACH ROW EXECUTE FUNCTION log_audit_event();
