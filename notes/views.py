@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import connection
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 @require_POST
 def add_note(request, book_id):
@@ -87,3 +88,41 @@ def delete_notes(request, book_id):
         messages.error(request, f'❌ Ошибка: {str(e)}')
     
     return redirect('book_detail', book_id=book_id)
+
+
+@require_POST
+def update_note(request, note_id):
+    """Обновление заметки (AJAX)"""
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        return JsonResponse({'success': False, 'error': 'Необходимо авторизоваться'}, status=401)
+    
+    note_text = request.POST.get('note_text', '').strip()
+    note_type_id = request.POST.get('note_type_id', '1')
+    
+    if not note_text:
+        return JsonResponse({'success': False, 'error': 'Заметка не может быть пустой'}, status=400)
+    
+    try:
+        note_type_id_int = int(note_type_id)
+    except ValueError:
+        note_type_id_int = 1
+    
+    try:
+        with connection.cursor() as cursor:
+            # Вызываем SQL-функцию для обновления заметки
+            cursor.execute("""
+                SELECT update_user_note(%s, %s, %s, %s)
+            """, [user_id, note_id, note_text, note_type_id_int])
+            
+            result = cursor.fetchone()
+            success = result[0] if result else False
+            
+            if success:
+                return JsonResponse({'success': True, 'message': 'Заметка обновлена'})
+            else:
+                return JsonResponse({'success': False, 'error': 'Не удалось обновить заметку'}, status=400)
+                
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

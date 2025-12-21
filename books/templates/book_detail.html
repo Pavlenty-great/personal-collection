@@ -25,7 +25,7 @@
     <div class="notes-section">
         <!-- Просмотр существующих заметок -->
         <div class="notes-view-section">
-            <h2 class="section-title">Заметки к книге ({{ notes|length }}):</h2>
+            <h2 class="section-title">Заметки к книге ({{ notes|length }})</h2>
             
             <!-- Форма для удаления заметок -->
             <form id="deleteNotesForm" method="POST" action="{% url 'delete_notes' book.book_id %}">
@@ -34,27 +34,41 @@
                 <div class="notes-list">
                     {% if notes %}
                         {% for note in notes %}
-                        <div class="note-item">
+                        <div class="note-item" id="note_{{ note.note_id }}">
                             <input 
                                 type="checkbox" 
                                 class="note-checkbox"
                                 name="note_ids" 
                                 value="{{ note.note_id }}"
-                                id="note_{{ note.note_id }}"
+                                id="note_checkbox_{{ note.note_id }}"
                             >
                             <div class="note-item-content">
                                 <div class="note-item-header">
                                     <span class="note-type">{{ note.note_type }}</span>
+                                    <span class="note-date">
+                                        {{ note.date_created|date:"d.m.Y H:i" }}
+                                    </span>
                                 </div>
-                                <div class="note-text">{{ note.note_text }}</div>
-                                <div class="note-date">
-                                    {{ note.date_created|date:"d.m.Y H:i" }}
+                                <div class="note-text" id="note_text_{{ note.note_id }}">
+                                    {{ note.note_text }}
+                                </div>
+                                
+                                <!-- Кнопка редактирования (оставляем только ее) -->
+                                <div class="note-actions">
+                                    <button type="button" 
+                                            class="edit-note-btn"
+                                            data-note-id="{{ note.note_id }}"
+                                            data-note-text="{{ note.note_text }}"
+                                            data-note-type="{{ note.note_type }}">
+                                        ✏️ Редактировать
+                                    </button>
+                                    <!-- Кнопка удаления убрана -->
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                         
-                        <!-- Панель выбора заметок -->
+                        <!-- Панель выбора заметок (остается) -->
                         <div class="note-selection-panel">
                             <label class="note-select-all-label">
                                 <input 
@@ -110,6 +124,44 @@
                     <button type="submit" class="btn">📝 Добавить заметку</button>
                 </form>
             </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для редактирования заметки -->
+    <div id="editNoteModal" class="edit-modal">
+        <div class="edit-modal-content">
+            <h3>✏️ Редактирование заметки</h3>
+            
+            <form id="editNoteForm" class="edit-note-form">
+                {% csrf_token %}
+                <input type="hidden" id="edit_note_id" name="note_id">
+                
+                <div class="form-group">
+                    <label for="edit_note_type_id">Тип заметки:</label>
+                    <select id="edit_note_type_id" name="note_type_id" class="note-select">
+                        <option value="1">Общая заметка</option>
+                        <option value="2">Цитата</option>
+                        <option value="3">Рецензия</option>
+                        <option value="4">Анализ</option>
+                        <option value="5">Вопросы по тексту</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_note_text">Текст заметки:</label>
+                    <textarea id="edit_note_text" name="note_text" 
+                              class="note-textarea" required></textarea>
+                </div>
+                
+                <div class="edit-modal-buttons">
+                    <button type="button" id="saveNoteBtn" class="save-note-btn">
+                        💾 Сохранить
+                    </button>
+                    <button type="button" id="cancelEditBtn" class="cancel-edit-btn">
+                        ❌ Отмена
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
     
