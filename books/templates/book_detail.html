@@ -6,191 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book: {{ book.book_name }}</title>
     <link rel="stylesheet" href="{% static 'css/book_detail.css' %}">
-    <style>
-        /* Базовые стили для страницы */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #007bff;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        
-        .header {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .book-title {
-            margin: 0 0 15px 0;
-            color: #333;
-        }
-        
-        .book-meta {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        /* Стили для заметок */
-        .notes-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        
-        .notes-view-section, .notes-add-section {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .section-title {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #333;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        
-        /* Существующие заметки */
-        .notes-list {
-            max-height: 500px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .note-item {
-            background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #007bff;
-        }
-        
-        .note-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .note-type {
-            display: inline-block;
-            background: #e9ecef;
-            color: #495057;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-        
-        .note-text {
-            margin: 10px 0;
-            color: #333;
-            line-height: 1.5;
-        }
-        
-        .note-date {
-            color: #888;
-            font-size: 12px;
-            text-align: right;
-        }
-        
-        .empty-notes {
-            text-align: center;
-            color: #999;
-            padding: 40px 20px;
-            font-style: italic;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 2px dashed #dee2e6;
-        }
-        
-        /* Форма добавления заметки */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #495057;
-        }
-        
-        select, input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-            font-family: inherit;
-        }
-        
-        .btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background 0.3s;
-        }
-        
-        .btn:hover {
-            background: #218838;
-        }
-        
-        /* Сообщения */
-        .messages {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        
-        .message {
-            padding: 15px 20px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-    </style>
 </head>
-<body>
+<body class="book-detail-body">
     <!-- Кнопка назад -->
     <a href="{% url 'index' %}" class="back-link">← Назад к списку</a>
     
@@ -236,8 +53,8 @@
                     {% csrf_token %}
                     
                     <div class="form-group">
-                        <label for="note_type_id">Тип заметки:</label>
-                        <select id="note_type_id" name="note_type_id" required>
+                        <label for="note_type_id" class="note-label">Тип заметки:</label>
+                        <select id="note_type_id" name="note_type_id" class="note-select" required>
                             <option value="1">Общая заметка</option>
                             <option value="2">Цитата</option>
                             <option value="3">Рецензия</option>
@@ -247,8 +64,8 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="note_text">Текст заметки:</label>
-                        <textarea id="note_text" name="note_text" 
+                        <label for="note_text" class="note-label">Текст заметки:</label>
+                        <textarea id="note_text" name="note_text" class="note-textarea"
                                   placeholder="Введите текст заметки..." required></textarea>
                     </div>
                     
