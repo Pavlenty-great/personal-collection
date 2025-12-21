@@ -209,3 +209,101 @@
 .hidden {
     display: none;
 }
+
+
+
+
+
+/* Стили для чекбоксов заметок */
+.note-checkbox {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Стили для выбора заметок */
+.note-selection-panel {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-select-all-label {
+    cursor: pointer;
+    color: #555;
+    font-size: 14px;
+}
+
+.note-delete-button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+    font-size: 14px;
+}
+
+.note-delete-button:hover {
+    background: #c82333;
+}
+
+/* Элемент заметки с чекбоксом */
+.note-item {
+    background: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+    display: flex;
+    align-items: flex-start;
+}
+
+.note-item-content {
+    flex: 1;
+}
+
+.note-item-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.note-type {
+    display: inline-block;
+    background: #e9ecef;
+    color: #495057;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.note-text {
+    margin: 10px 0;
+    color: #333;
+    line-height: 1.5;
+}
+
+.note-date {
+    color: #888;
+    font-size: 12px;
+    text-align: right;
+}
+
+/* Пустой список заметок */
+.empty-notes {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+    font-style: italic;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+}
