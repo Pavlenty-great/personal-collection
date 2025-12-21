@@ -120,6 +120,7 @@ def delete_books(request):
 
 
 def book_detail(request, book_id):
+    """Детальная страница книги с заметками"""
     user_id = request.session.get('user_id')
     
     if not user_id:
@@ -127,26 +128,47 @@ def book_detail(request, book_id):
         return redirect('login')
     
     try:
-        # Проверяем, что книга принадлежит пользователю и получаем данные
+        # 1. Получаем информацию о книге через существующую функцию
         with connection.cursor() as cursor:
-            # Используем нашу функцию или прямой запрос
+            # Получаем данные книги
             cursor.execute("""
-                SELECT * FROM get_user_books(%s)
+                SELECT * FROM get_user_books(%s) 
                 WHERE book_id = %s
             """, [user_id, book_id])
             
-            result = cursor.fetchone()
+            book_result = cursor.fetchone()
             
-            if not result:
-                messages.error(request, 'Книга не найдена')
+            if not book_result:
+                messages.error(request, 'Книга не найдена в вашей коллекции')
                 return redirect('index')
             
-            # Преобразуем в словарь
-            columns = [col[0] for col in cursor.description]
-            book = dict(zip(columns, result))
+            # Преобразуем результат в словарь
+            columns = ['book_id', 'book_name', 'authors_list', 'book_year', 'place_name']
+            book_data = dict(zip(columns, book_result))
             
+            # 2. Получаем заметки к книге через новую функцию
+            cursor.execute("""
+                SELECT * FROM get_user_notes_for_book(%s, %s)
+            """, [user_id, book_id])
+            
+            # Получаем названия столбцов
+            note_columns = [desc[0] for desc in cursor.description]
+            
+            # Преобразуем заметки в список словарей
+            notes = []
+            for row in cursor.fetchall():
+                note_dict = dict(zip(note_columns, row))
+                
+                # Форматируем дату для отображения
+                from django.utils.timezone import localtime
+                note_dict['date_created'] = localtime(note_dict['date_created'])
+                
+                notes.append(note_dict)
+            
+            # 3. Формируем контекст
             context = {
-                'book': book,
+                'book': book_data,
+                'notes': notes,
             }
             
             return render(request, 'book_detail.html', context)
