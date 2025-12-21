@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/book_detail.css' %}">
 </head>
 <body class="book-detail-body">
-    <!-- Кнопка назад -->
     <a href="{% url 'index' %}" class="back-link">← Назад к списку</a>
     
     <!-- Заголовок с информацией о книге -->
@@ -24,7 +23,7 @@
                 class="edit-book-detail-btn"
                 id="editBookBtn"
                 data-book-id="{{ book.book_id }}">
-            ✏️ Редактировать книгу
+                Редактировать книгу
         </button>
     </div>
     
@@ -67,14 +66,14 @@
                                             data-note-id="{{ note.note_id }}"
                                             data-note-text="{{ note.note_text }}"
                                             data-note-type="{{ note.note_type }}">
-                                        ✏️ Редактировать
+                                            Редактировать
                                     </button>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                         
-                        <!-- Панель выбора заметок (остается) -->
+                        <!-- Панель выбора заметок -->
                         <div class="note-selection-panel">
                             <label class="note-select-all-label">
                                 <input 
@@ -133,45 +132,7 @@
         </div>
     </div>
     
-    <!-- Модальное окно для редактирования заметки -->
-    <div id="editNoteModal" class="edit-modal">
-        <div class="edit-modal-content">
-            <h3>✏️ Редактирование заметки</h3>
-            
-            <form id="editNoteForm" class="edit-note-form">
-                {% csrf_token %}
-                <input type="hidden" id="edit_note_id" name="note_id">
-                
-                <div class="form-group">
-                    <label for="edit_note_type_id">Тип заметки:</label>
-                    <select id="edit_note_type_id" name="note_type_id" class="note-select">
-                        <option value="1">Общая заметка</option>
-                        <option value="2">Цитата</option>
-                        <option value="3">Рецензия</option>
-                        <option value="4">Анализ</option>
-                        <option value="5">Вопросы по тексту</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_note_text">Текст заметки:</label>
-                    <textarea id="edit_note_text" name="note_text" 
-                              class="note-textarea" required></textarea>
-                </div>
-                
-                <div class="edit-modal-buttons">
-                    <button type="button" id="saveNoteBtn" class="save-note-btn">
-                        💾 Сохранить
-                    </button>
-                    <button type="button" id="cancelEditBtn" class="cancel-edit-btn">
-                        ❌ Отмена
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- ПОДКЛЮЧАЕМ МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ КНИГИ -->
+    {% include 'edit_note_modal.html' %}
     {% include 'edit_book_modal.html' %}
     
     <!-- Сообщения Django -->

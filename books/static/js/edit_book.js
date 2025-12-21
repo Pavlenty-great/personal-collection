@@ -35,9 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // КНОПКИ РЕДАКТИРОВАНИЯ ИЗ СПИСКА УБРАНЫ
-    
-    // Функция открытия модального окна
     function openEditBookModal(bookId) {
         // Заполняем скрытое поле с ID книги
         editBookId.value = bookId;

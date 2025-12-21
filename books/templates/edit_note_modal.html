@@ -1,0 +1,36 @@
+<div id="editNoteModal" class="edit-modal">
+        <div class="edit-modal-content">
+            <h3>✏️ Редактирование заметки</h3>
+            
+            <form id="editNoteForm" class="edit-note-form">
+                {% csrf_token %}
+                <input type="hidden" id="edit_note_id" name="note_id">
+                
+                <div class="form-group">
+                    <label for="edit_note_type_id">Тип заметки:</label>
+                    <select id="edit_note_type_id" name="note_type_id" class="note-select">
+                        <option value="1">Общая заметка</option>
+                        <option value="2">Цитата</option>
+                        <option value="3">Рецензия</option>
+                        <option value="4">Анализ</option>
+                        <option value="5">Вопросы по тексту</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_note_text">Текст заметки:</label>
+                    <textarea id="edit_note_text" name="note_text" 
+                              class="note-textarea" required></textarea>
+                </div>
+                
+                <div class="edit-modal-buttons">
+                    <button type="button" id="saveNoteBtn" class="save-note-btn">
+                        💾 Сохранить
+                    </button>
+                    <button type="button" id="cancelEditBtn" class="cancel-edit-btn">
+                        ❌ Отмена
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>

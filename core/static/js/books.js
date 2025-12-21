@@ -71,12 +71,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // Инициализация
     updateDeleteButton();
 });
-
-// Скрываем сообщения через 2 секунды
-setTimeout(() => {
-    document.querySelectorAll('.alert, [class*="message"]').forEach(msg => {
-        msg.style.opacity = '0';
-        msg.style.transition = 'opacity 0.3s';
-        setTimeout(() => msg.remove(), 300);
-    });
-}, 2000);

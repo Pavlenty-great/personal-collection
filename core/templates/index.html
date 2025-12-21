@@ -81,15 +81,11 @@
                 {% else %}
                     <div class="empty-collection">
                         <p>У вас пока нет книг в коллекции</p>
-                        <button id="openModalBtn" class="add-first-btn">
-                            Добавьте первую книгу!
-                        </button>
                     </div>
                 {% endif %}
             </form>
         </div>
             
-        <!-- Кнопка добавления книги -->
         <button id="openModalBtn">
             📥 Добавить книгу
         </button>
@@ -108,7 +104,6 @@
     </div>
     {% endif %}
 
-    <!-- ПОДКЛЮЧАЕМ МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ КНИГИ -->
     {% include 'edit_book_modal.html' %}
 
     <script src="{% static 'js/books.js' %}"></script>
