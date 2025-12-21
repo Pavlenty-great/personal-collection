@@ -1,122 +1,386 @@
-/*Стили макета главной страницы:*/
-.header{
+/* core/static/css/index.css - МИНИМАЛИСТИЧНЫЙ СТИЛЬ */
+
+/* Базовые настройки */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Шапка */
+.header {
     display: grid;
     grid-template-columns: 180px 1fr 180px;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border-radius: 0 0 12px 12px;
 }
 
-.logotype{
-    border: 1px solid black;
+.logotype {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    padding: 8px 0;
+    border-bottom: 2px solid #3498db;
 }
 
-.search-group{
+/* Поиск */
+.search-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 5px;
 }
 
-.search-group button{
-    height: 30px;
+input[type="search"] {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     font-size: 14px;
-    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
 }
 
-input[type="search"]{
-    height: 40px;
-    border-radius: 12px;
-    font-size: medium;
+input[type="search"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    background: white;
 }
 
-.main{
+.search-group button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.search-group button:first-child {
+    background: #3498db;
+    color: white;
+}
+
+.search-group button:first-child:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+.search-group button:last-child {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+.search-group button:last-child:hover {
+    background: #dfe6e9;
+    transform: translateY(-1px);
+}
+
+/* Основной контент */
+.main {
     display: grid;
     grid-template-columns: 180px 1fr 180px;
-    align-items: center;
-    gap: 10px;
+    align-items: start;
+    gap: 20px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 30px auto;
+    padding: 0 20px;
 }
 
-.main h3{
-    margin: 0 auto;
-    margin-left: 10px;
-}
-
-.main ol{
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.list{
-    border: 1px solid black;
-}
-
-
-/* Стили для блока пользователя */
+/* Блок пользователя */
 .user-welcome {
-    background: #f8f9fa;      /* Светло-серый фон */
-    padding: 15px;            /* Внутренние отступы со всех сторон */
-    border-radius: 8px;       /* Скругленные углы */
-    margin-bottom: 20px;      /* Отступ снизу для следующего элемента */
-    border-left: 4px solid #007bff; /* Синяя полоса слева */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid #3498db;
+}
+
+.user-welcome h4 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
 }
 
 .logout-btn {
-    background: gray;      /* Красный цвет Bootstrap danger */
-    color: white;             /* Белый текст */
-    border: none;             /* Убираем стандартную рамку кнопки */
-    padding: 8px 20px;        /* Вертикальные 8px, горизонтальные 20px */
-    border-radius: 5px;       /* Слегка скругленные углы */
-    cursor: pointer;          /* Курсор в виде руки при наведении */
-    font-size: 14px;          /* Размер шрифта */
-    transition: background 0.3s; /* Плавное изменение фона за 0.3 секунды */
-    display: inline-block;    /* Кнопка как блочно-строчный элемент */
-    margin-top: 10px;         /* Отступ сверху от предыдущего элемента */
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .logout-btn:hover {
-    background: #c82333;      /* Темно-красный цвет при наведении */
-    transform: translateY(-1px); /* Поднимаем кнопку на 1px вверх */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Легкая тень */
+    background: #c0392b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2);
 }
 
+/* Список книг */
+.list {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
 
-/* Стили для сообщений */
+.list h3 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+/* Элементы списка книг */
+.book-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.2s ease;
+}
+
+.book-item:hover {
+    background-color: #f8f9fa;
+}
+
+.book-checkbox {
+    margin-right: 15px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #3498db;
+}
+
+.book-title {
+    color: #2c3e50;
+    font-weight: 500;
+    text-decoration: none;
+    margin-right: 12px;
+    transition: color 0.3s ease;
+    flex: 1;
+}
+
+.book-title:hover {
+    color: #3498db;
+}
+
+.book-meta {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+
+/* Панель выбора */
+.selection-panel {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ecf0f1;
+}
+
+.select-all-label {
+    cursor: pointer;
+    color: #2c3e50;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.delete-button:hover {
+    background: #c0392b;
+    transform: translateY(-1px);
+}
+
+/* Пустая коллекция */
+.empty-collection {
+    text-align: center;
+    padding: 40px 20px;
+    color: #95a5a6;
+}
+
+.empty-collection p {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+}
+
+.add-first-btn {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    padding: 0;
+    font-size: 15px;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.add-first-btn:hover {
+    color: #2980b9;
+}
+
+/* Кнопка добавления книги */
+#openModalBtn {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+}
+
+#openModalBtn:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+}
+
+/* Сообщения */
 .messages {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 9999;
+    z-index: 1000;
     max-width: 400px;
 }
 
-.alert {
-    padding: 15px;
+.messages > div {
+    padding: 15px 20px;
     margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
 }
 
-.alert-success {
-    background-color: #d4edda;
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.messages .success {
+    background: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
 
-.alert-error, .alert-danger {
-    background-color: #f8d7da;
+.messages .error {
+    background: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
 
-.alert-info {
-    background-color: #d1ecf1;
+.messages .info {
+    background: #d1ecf1;
     color: #0c5460;
     border: 1px solid #bee5eb;
 }
 
-.alert, [class*="message"] {
-    transition: opacity 0.3s ease !important;
+/* Стили для списка */
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+ol::-webkit-scrollbar {
+    width: 6px;
+}
+
+ol::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+ol::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    border-radius: 3px;
+}
+
+ol::-webkit-scrollbar-thumb:hover {
+    background: #95a5a6;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .header,
+    .main {
+        grid-template-columns: 150px 1fr 150px;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header,
+    .main {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .logotype {
+        margin-bottom: 10px;
+    }
+    
+    .search-group {
+        order: 3;
+        margin-top: 15px;
+    }
+    
+    .user-welcome,
+    .list {
+        order: 2;
+    }
 }
