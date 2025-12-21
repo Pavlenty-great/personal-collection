@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +11,37 @@
 <body>
     <div class="header">
         <h1 class="logotype">Personal Collection</h1>
-        <input type="search" placeholder="Поиск...">
-        <div class="search-group">
-            <button>Найти</button>
-            <button>Расширенный поиск</button>
-        </div>
+        
+        <!-- Форма поиска -->
+        <form id="searchForm" method="GET" action="{% url 'index' %}" class="search-form">
+            <div class="search-group">
+                <input type="search" 
+                       name="search" 
+                       placeholder="Поиск по названию или автору..." 
+                       value="{{ search_query|default:'' }}"
+                       id="searchInput">
+                <div class="search-buttons">
+                    <button type="submit" id="searchButton">Найти</button>
+                    {% if search_query %}
+                    <a href="{% url 'index' %}" class="clear-search-btn">Очистить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="main">
         <div class="user-welcome">
             <h4>Добро пожаловать, {{ username }}!</h4>
+            
+            <!-- Информация о поиске -->
+            {% if search_query %}
+            <div class="search-info">
+                <p>🔍 По запросу <strong>"{{ search_query }}"</strong></p>
+                <p>Найдено книг: <strong>{{ total_books }}</strong></p>
+            </div>
+            {% endif %}
+            
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">Выйти</button>
@@ -28,7 +49,13 @@
         </div>
             
         <div class="list">
-            <h3>Ваши книги ({{ user_books|length }}):</h3>
+            <h3>
+                {% if search_query %}
+                    Результаты поиска ({{ user_books|length }})
+                {% else %}
+                    Ваши книги ({{ user_books|length }})
+                {% endif %}
+            </h3>
             
             <form id="deleteBooksForm" method="POST" action="{% url 'delete_books' %}">
                 {% csrf_token %}
@@ -80,12 +107,22 @@
                     
                 {% else %}
                     <div class="empty-collection">
-                        <p>У вас пока нет книг в коллекции</p>
+                        {% if search_query %}
+                            <p>📭 По запросу "{{ search_query }}" ничего не найдено</p>
+                            <a href="{% url 'index' %}" class="add-first-btn">
+                                Показать все книги
+                            </a>
+                        {% else %}
+                            <p>📚 У вас пока нет книг в коллекции</p>
+                            <button id="openModalBtn" class="add-first-btn">
+                                Добавьте первую книгу!
+                            </button>
+                        {% endif %}
                     </div>
                 {% endif %}
             </form>
         </div>
-            
+
         <button id="openModalBtn">
             📥 Добавить книгу
         </button>
@@ -104,9 +141,8 @@
     </div>
     {% endif %}
 
-    {% include 'edit_book_modal.html' %}
-
     <script src="{% static 'js/books.js' %}"></script>
     <script src="{% static 'js/add_book.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
 </body>
 </html>

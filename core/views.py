@@ -6,11 +6,18 @@ def index(request):
     user_login = request.session.get('user_login', 'Гость')
     
     user_books = []
+    search_query = request.GET.get('search', '').strip()
+    
     if user_id:
         try:
             with connection.cursor() as cursor:
-                # Вызываем нашу SQL-функцию
-                cursor.execute("SELECT * FROM get_user_books(%s)", [user_id])
+                if search_query:
+                    # Используем функцию поиска
+                    cursor.execute("SELECT * FROM search_user_books(%s, %s)", 
+                                 [user_id, search_query])
+                else:
+                    # Используем обычную функцию для получения всех книг
+                    cursor.execute("SELECT * FROM get_user_books(%s)", [user_id])
                 
                 # Получаем названия столбцов
                 columns = [col[0] for col in cursor.description]
@@ -21,7 +28,7 @@ def index(request):
                     for row in cursor.fetchall()
                 ]
                 
-                print(f"📚 Найдено книг для пользователя {user_id}: {len(user_books)}")
+                print(f"🔍 Поиск: '{search_query}', найдено книг: {len(user_books)}")
                 
         except Exception as e:
             print(f"❌ Ошибка при получении книг: {e}")
@@ -31,6 +38,8 @@ def index(request):
         'user_id': user_id,
         'username': user_login,
         'user_books': user_books,
+        'search_query': search_query,
+        'total_books': len(user_books),
     }
     
     return render(request, 'index.html', context)
