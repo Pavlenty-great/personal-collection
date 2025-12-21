@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Книга: {{ book.book_name }}</title>
+    <title>Book: {{ book.book_name }}</title>
     <link rel="stylesheet" href="{% static 'css/book_detail.css' %}">
 </head>
 <body>
@@ -31,16 +31,6 @@
                 <div class="empty-notes">
                     Пока нет заметок. Добавьте первую!
                 </div>
-                <!-- Пример заметки (закомментирован) -->
-                <!--
-                <div style="margin-bottom: 15px; padding: 10px; background: #fff; border-left: 3px solid #007bff;">
-                    <div style="color: #666; font-size: 12px; margin-bottom: 5px;">
-                        <strong>Тип:</strong> Цитата • 
-                        <strong>Дата:</strong> 20.12.2025
-                    </div>
-                    <div>Текст заметки...</div>
-                </div>
-                -->
             </div>
         </div>
         
@@ -48,7 +38,7 @@
         <div class="notes-add-section">
             <h2 class="section-title">Добавить заметку</h2>
             <div class="notes-add">
-                <form method="POST" action="#">
+                <form method="POST" action="{% url 'add_note' book.book_id %}">
                     {% csrf_token %}
                     
                     <div class="form-group">
@@ -81,6 +71,7 @@
         </div>
     </div>
     
+
     <!-- Простой скрипт для выбора типа заметки -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -104,14 +95,14 @@
                 customTypeInput.style.display = 'block';
             }
             
-            // Обработка отправки формы (пока только сообщение)
+            /*// Обработка отправки формы (пока только сообщение)
             document.querySelector('form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 alert('Функция добавления заметки будет реализована позже');
                 // Очищаем форму
                 this.reset();
                 customTypeInput.style.display = 'none';
-            });
+            });*/
         });
     </script>
 </body>

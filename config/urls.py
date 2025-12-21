@@ -5,5 +5,6 @@ from core import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/', include('accounts.urls')),
-    path('books/', include('books.urls'))
+    path('books/', include('books.urls')),
+    path('notes/', include('notes.urls'))
 ]
