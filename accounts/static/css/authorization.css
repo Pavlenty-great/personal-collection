@@ -1,18 +1,173 @@
-body{
+/* accounts/static/css/authorization.css - МИНИМАЛИСТИЧНЫЙ СТИЛЬ */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
+/* Контейнер формы */
+.auth-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Заголовок */
+.auth-container h1 {
+    margin: 0 0 30px 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: 600;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+}
+
+/* Форма */
 form {
     display: flex;
     flex-direction: column;
-    width: 300px;
 }
 
-label, button {
+/* Поля ввода */
+label {
+    color: #2c3e50;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
     display: block;
-    margin-top: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    background: white;
+}
+
+/* Кнопка */
+button[type="submit"] {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+/* Ссылка */
+.auth-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #ecf0f1;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 5px;
+    transition: color 0.3s ease;
+}
+
+.auth-link a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Логотип или заголовок страницы */
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.auth-header p {
+    color: #7f8c8d;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px 25px;
+        margin: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    body {
+        padding: 20px;
+        background: #f8f9fa;
+    }
 }

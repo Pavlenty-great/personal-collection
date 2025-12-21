@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authorization</title>
-    <link rel="stylesheet" href="{% static "css/authorization.css" %}">
+    <title>Авторизация | Personal Collection</title>
+    <link rel="stylesheet" href="{% static 'css/authorization.css' %}">
 </head>
 <body>
-    <h1>Авторизация</h1>
-    <form action="" method="POST"> 
-        {% csrf_token %}
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Personal Collection</h2>
+        </div>
+        
+        <h1>Вход в систему</h1>
+        
+        <!-- Сообщения об ошибках -->
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form action="" method="POST"> 
+            {% csrf_token %}
 
-        <label for="login">Логин:</label>
-        <input type="text" id="login" name="login" placeholder="Введите логин">
-        <label for="password">Пароль:</label>
-        <input type="text" id="password" name="password" placeholder="Введите пароль">
+            <label for="login">Логин:</label>
+            <input type="text" id="login" name="login" 
+                   placeholder="Введите ваш логин" required>
 
-        <button type="submit">Авторизоваться</button>
-    </form>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" 
+                   placeholder="Введите пароль" required>
 
-    <p class="auth-link">Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+            <button type="submit">Войти</button>
+        </form>
+
+        <p class="auth-link">
+            Нет аккаунта? 
+            <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </p>
+    </div>
 </body>
 </html>
