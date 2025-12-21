@@ -18,78 +18,77 @@
         </div>
     </div>
 
-
-<div class="main">
-    <div class="user-welcome">
-        <h4>Добро пожаловать, {{ username }}!</h4>
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn">Выйти</button>
-        </form>
-    </div>
-        
-
-    <div class="list">
-        <h3>Ваши книги ({{ user_books|length }}):</h3>
-        
-        <form id="deleteBooksForm" method="POST" action="{% url 'delete_books' %}">
-            {% csrf_token %}
+    <div class="main">
+        <div class="user-welcome">
+            <h4>Добро пожаловать, {{ username }}!</h4>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Выйти</button>
+            </form>
+        </div>
             
-            {% if user_books %}
-                <ol>
-                    {% for book in user_books %}
-                    <li class="book-item">
-                        <input 
-                            type="checkbox" 
-                            class="book-checkbox"
-                            name="book_ids" 
-                            value="{{ book.book_id }}"
-                            id="book_{{ book.book_id }}"
-                        >
-                        
-                        <a href="{% url 'book_detail' book.book_id %}" class="book-title">
-                            "{{ book.book_name }}"
-                        </a>
-                        <span class="book-meta">
-                            {{ book.authors_list }}, {{ book.book_year }}
-                            {% if book.place_name %}
-                                ({{ book.place_name }})
-                            {% endif %}
-                        </span>
-                    </li>
-                    {% endfor %}
-                </ol>
+        <div class="list">
+            <h3>Ваши книги ({{ user_books|length }}):</h3>
+            
+            <form id="deleteBooksForm" method="POST" action="{% url 'delete_books' %}">
+                {% csrf_token %}
                 
-                <div class="selection-panel">
-                    <label class="select-all-label">
-                        <input 
-                            type="checkbox" 
-                            id="selectAll"
-                            style="margin-right: 8px;"
-                        >
-                        Выбрать все
-                    </label>
+                {% if user_books %}
+                    <ol>
+                        {% for book in user_books %}
+                        <li class="book-item">
+                            <input 
+                                type="checkbox" 
+                                class="book-checkbox"
+                                name="book_ids" 
+                                value="{{ book.book_id }}"
+                                id="book_{{ book.book_id }}"
+                            >
+                            
+                            <a href="{% url 'book_detail' book.book_id %}" class="book-title">
+                                "{{ book.book_name }}"
+                            </a>
+                            
+                            <span class="book-meta">
+                                {{ book.authors_list }}, {{ book.book_year }}
+                                {% if book.place_name %}
+                                    ({{ book.place_name }})
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ol>
                     
-                    <button 
-                        type="submit" 
-                        id="deleteSelectedBtn"
-                        class="delete-button"
-                    >
-                        Удалить выбранные
-                    </button>
-                </div>
-                
-            {% else %}
-                <div class="empty-collection">
-                    <p>У вас пока нет книг в коллекции</p>
-                    <button id="openModalBtn" class="add-first-btn">
-                        Добавьте первую книгу!
-                    </button>
-                </div>
-            {% endif %}
-        </form>
-    </div>
-        
+                    <div class="selection-panel">
+                        <label class="select-all-label">
+                            <input 
+                                type="checkbox" 
+                                id="selectAll"
+                                style="margin-right: 8px;"
+                            >
+                            Выбрать все
+                        </label>
+                        
+                        <button 
+                            type="submit" 
+                            id="deleteSelectedBtn"
+                            class="delete-button"
+                        >
+                            Удалить выбранные
+                        </button>
+                    </div>
+                    
+                {% else %}
+                    <div class="empty-collection">
+                        <p>У вас пока нет книг в коллекции</p>
+                        <button id="openModalBtn" class="add-first-btn">
+                            Добавьте первую книгу!
+                        </button>
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+            
         <!-- Кнопка добавления книги -->
         <button id="openModalBtn" style="
             background: #28a745;
@@ -104,7 +103,7 @@
         </button>
         
         {% include 'add_book.html' %}
-</div>
+    </div>
 
     <!-- Сообщения Django -->
     {% if messages %}
@@ -117,6 +116,8 @@
     </div>
     {% endif %}
 
+    <!-- ПОДКЛЮЧАЕМ МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ КНИГИ -->
+    {% include 'edit_book_modal.html' %}
 
     <script src="{% static 'js/books.js' %}"></script>
     <script src="{% static 'js/add_book.js' %}"></script>

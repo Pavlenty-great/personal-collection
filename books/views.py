@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import connection
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 def add_book(request):
     # ОТЛАДКА
@@ -176,3 +177,83 @@ def book_detail(request, book_id):
     except Exception as e:
         messages.error(request, f'Ошибка: {str(e)}')
         return redirect('index')
+    
+
+def get_book_details(request, book_id):
+    """Получение деталей книги для редактирования (AJAX)"""
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        return JsonResponse({'error': 'Необходимо авторизоваться'}, status=401)
+    
+    try:
+        with connection.cursor() as cursor:
+            # Получаем данные книги через существующую функцию
+            cursor.execute("""
+                SELECT * FROM get_user_books(%s) 
+                WHERE book_id = %s
+            """, [user_id, book_id])
+            
+            book_result = cursor.fetchone()
+            
+            if not book_result:
+                return JsonResponse({'error': 'Книга не найдена'}, status=404)
+            
+            # Преобразуем результат в словарь
+            columns = ['book_id', 'book_name', 'authors_list', 'book_year', 'place_name']
+            book_data = dict(zip(columns, book_result))
+            
+            return JsonResponse(book_data)
+            
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@require_POST
+def update_book(request, book_id):
+    """Обновление книги (AJAX)"""
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        return JsonResponse({'success': False, 'error': 'Необходимо авторизоваться'}, status=401)
+    
+    # Получаем данные из формы
+    book_name = request.POST.get('book_name', '').strip()
+    book_year = request.POST.get('book_year', '').strip()
+    place_name = request.POST.get('place_name', '').strip()
+    author_last_name = request.POST.get('author_last_name', '').strip()
+    author_first_name = request.POST.get('author_first_name', '').strip()
+    author_middle_name = request.POST.get('author_middle_name', '').strip()
+    
+    # Проверяем, что есть хотя бы одно поле для обновления
+    if not any([book_name, book_year, place_name, author_last_name, author_first_name]):
+        return JsonResponse({'success': False, 'error': 'Укажите хотя бы одно поле для обновления'}, status=400)
+    
+    # Валидация года
+    if book_year and not book_year.isdigit() or len(book_year) != 4:
+        return JsonResponse({'success': False, 'error': 'Год должен состоять из 4 цифр'}, status=400)
+    
+    try:
+        with connection.cursor() as cursor:
+            # Вызываем SQL-функцию для обновления книги
+            cursor.execute("""
+                SELECT update_user_book(%s, %s, %s, %s, %s, %s, %s, %s)
+            """, [
+                user_id, book_id,
+                book_name if book_name else None,
+                book_year if book_year else None,
+                place_name if place_name else None,
+                author_last_name if author_last_name else None,
+                author_first_name if author_first_name else None,
+                author_middle_name if author_middle_name else None
+            ])
+            
+            result = cursor.fetchone()
+            success = result[0] if result else False
+            
+            if success:
+                return JsonResponse({'success': True, 'message': 'Книга успешно обновлена'})
+            else:
+                return JsonResponse({'success': False, 'error': 'Не удалось обновить книгу'}, status=400)
+                
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

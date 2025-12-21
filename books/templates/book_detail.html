@@ -19,6 +19,13 @@
             <strong>Год издания:</strong> {{ book.book_year }}<br>
             <strong>Место публикации:</strong> {{ book.place_name }}
         </div>
+        <!-- КНОПКА РЕДАКТИРОВАНИЯ КНИГИ -->
+        <button type="button" 
+                class="edit-book-detail-btn"
+                id="editBookBtn"
+                data-book-id="{{ book.book_id }}">
+            ✏️ Редактировать книгу
+        </button>
     </div>
     
     <!-- Секция заметок -->
@@ -62,7 +69,6 @@
                                             data-note-type="{{ note.note_type }}">
                                         ✏️ Редактировать
                                     </button>
-                                    <!-- Кнопка удаления убрана -->
                                 </div>
                             </div>
                         </div>
@@ -164,6 +170,9 @@
             </form>
         </div>
     </div>
+    
+    <!-- ПОДКЛЮЧАЕМ МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ КНИГИ -->
+    {% include 'edit_book_modal.html' %}
     
     <!-- Сообщения Django -->
     {% if messages %}

@@ -1,0 +1,73 @@
+{% load static %}
+<div id="editBookModal" class="edit-book-modal">
+    <div class="edit-book-content">
+        <button type="button" class="edit-book-close">&times;</button>
+        <h1>📖 Редактирование книги</h1>
+        
+        <div class="current-book-info">
+            <p><strong>Текущая книга:</strong> <span id="currentBookTitle"></span></p>
+            <p><strong>Текущий автор:</strong> <span id="currentBookAuthor"></span></p>
+        </div>
+        
+        <form id="editBookForm" class="edit-book-form">
+            {% csrf_token %}
+            <input type="hidden" id="edit_book_id" name="book_id">
+            
+            <div class="edit-book-section">
+                <h3>Информация о книге</h3>
+                
+                <label for="edit_book_name">Название книги:</label>
+                <input type="text" id="edit_book_name" name="book_name" 
+                       placeholder="Введите новое название" maxlength="80">
+                
+                <label for="edit_book_year">Год издания:</label>
+                <input type="text" id="edit_book_year" name="book_year" 
+                       placeholder="Например: 2023" pattern="\d{4}" 
+                       maxlength="4" title="4 цифры года">
+                
+                <label for="edit_place_name">Место публикации:</label>
+                <input type="text" id="edit_place_name" name="place_name" 
+                       placeholder="Например: Москва" maxlength="80">
+            </div>
+            
+            <div class="edit-book-section">
+                <h3>Информация об авторе</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                    Оставьте поля пустыми, чтобы не изменять автора
+                </p>
+                
+                <div class="edit-author-fields">
+                    <div class="edit-field-group">
+                        <label for="edit_author_last_name">Фамилия автора:</label>
+                        <input type="text" id="edit_author_last_name" name="author_last_name" 
+                               placeholder="Иванов" maxlength="80">
+                    </div>
+                    
+                    <div class="edit-field-group">
+                        <label for="edit_author_first_name">Имя автора:</label>
+                        <input type="text" id="edit_author_first_name" name="author_first_name" 
+                               placeholder="Иван" maxlength="80">
+                    </div>
+                    
+                    <div class="edit-field-group">
+                        <label for="edit_author_middle_name">Отчество автора:</label>
+                        <input type="text" id="edit_author_middle_name" name="author_middle_name" 
+                               placeholder="Иванович (необязательно)" maxlength="80">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="edit-book-buttons">
+                <button type="button" id="saveBookBtn" class="save-book-btn">
+                    💾 Сохранить изменения
+                </button>
+                <button type="button" id="cancelEditBookBtn" class="cancel-edit-book-btn">
+                    ❌ Отмена
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'css/edit_book.css' %}">
+<script src="{% static 'js/edit_book.js' %}"></script>
