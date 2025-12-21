@@ -1,3 +1,5 @@
+/* books/static/css/book_detail.css - БЕЗ ДУБЛИКАТОВ */
+
 .book-detail-body {
     font-family: Arial, sans-serif;
     max-width: 1000px;
@@ -65,32 +67,56 @@
     padding-right: 10px;
 }
 
+/* Элемент заметки с чекбоксом */
 .note-item {
     background: #f8f9fa;
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 8px;
     border-left: 4px solid #007bff;
+    display: flex;
+    align-items: flex-start;
 }
 
 .note-item:last-child {
     margin-bottom: 0;
 }
 
+.note-checkbox {
+    margin-right: 15px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #3498db;
+    margin-top: 3px;
+}
+
+.note-item-content {
+    flex: 1;
+}
+
+.note-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
 .note-type {
     display: inline-block;
     background: #e9ecef;
     color: #495057;
-    padding: 3px 10px;
+    padding: 4px 10px;
     border-radius: 20px;
     font-size: 12px;
-    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .note-text {
     margin: 10px 0;
     color: #333;
     line-height: 1.5;
+    font-size: 14px;
 }
 
 .note-date {
@@ -109,120 +135,30 @@
     border: 2px dashed #dee2e6;
 }
 
-/* Форма добавления заметки */
-.form-group {
-    margin-bottom: 20px;
+/* Кнопки действий для заметки */
+.note-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: flex-end;
 }
 
-.note-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #495057;
-}
-
-.note-select, .note-input, .note-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-.note-textarea {
-    min-height: 120px;
-    resize: vertical;
-    font-family: inherit;
-}
-
-.btn {
-    background: #28a745;
+.edit-note-btn {
+    background: #007bff;
     color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
+    padding: 6px 12px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    transition: background 0.3s;
+    font-size: 13px;
+    font-weight: 500;
 }
 
-.btn:hover {
-    background: #218838;
+.edit-note-btn:hover {
+    background: #0056b3;
 }
 
-/* Сообщения */
-.messages {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-.message {
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
-
-.success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-/* Стили для кастомного типа заметки */
-.custom-type-section {
-    margin-top: 15px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 5px;
-    border: 1px solid #dee2e6;
-}
-
-.custom-type-toggle {
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    padding: 0;
-    font-size: 14px;
-    text-decoration: underline;
-}
-
-.custom-type-toggle:hover {
-    color: #0056b3;
-}
-
-.custom-type-input {
-    margin-top: 10px;
-}
-
-.hidden {
-    display: none;
-}
-
-
-
-
-
-/* Стили для чекбоксов заметок */
-.note-checkbox {
-    margin-right: 10px;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-/* Стили для выбора заметок */
+/* Панель выбора заметок */
 .note-selection-panel {
     margin-top: 20px;
     padding: 15px;
@@ -237,6 +173,9 @@
     cursor: pointer;
     color: #555;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .note-delete-button {
@@ -254,104 +193,54 @@
     background: #c82333;
 }
 
-/* Элемент заметки с чекбоксом */
-.note-item {
-    background: #f8f9fa;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border-left: 4px solid #007bff;
-    display: flex;
-    align-items: flex-start;
+/* Форма добавления заметки */
+.notes-add {
+    margin-top: 20px;
 }
 
-.note-item-content {
-    flex: 1;
+.form-group {
+    margin-bottom: 20px;
 }
 
-.note-item-header {
-    display: flex;
-    align-items: center;
+.note-label {
+    display: block;
     margin-bottom: 8px;
-}
-
-.note-type {
-    display: inline-block;
-    background: #e9ecef;
+    font-weight: bold;
     color: #495057;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    margin-right: 10px;
 }
 
-.note-text {
-    margin: 10px 0;
-    color: #333;
+.note-select, .note-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.note-textarea {
+    min-height: 120px;
+    resize: vertical;
     line-height: 1.5;
 }
 
-.note-date {
-    color: #888;
-    font-size: 12px;
-    text-align: right;
-}
-
-/* Пустой список заметок */
-.empty-notes {
-    text-align: center;
-    color: #999;
-    padding: 40px 20px;
-    font-style: italic;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border: 2px dashed #dee2e6;
-}
-
-
-
-
-/* books/static/css/book_detail.css - ДОБАВЛЯЕМ СТИЛИ ДЛЯ РЕДАКТИРОВАНИЯ */
-
-/* Кнопки действий для заметки */
-.note-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-    justify-content: flex-end;
-}
-
-.edit-note-btn {
-    background: #007bff;
+.btn {
+    background: #28a745;
     color: white;
     border: none;
-    padding: 5px 12px;
-    border-radius: 3px;
+    padding: 12px 25px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 12px;
-    transition: background 0.3s;
+    font-size: 16px;
+    width: 100%;
 }
 
-.edit-note-btn:hover {
-    background: #0056b3;
+.btn:hover {
+    background: #218838;
 }
 
-.delete-note-btn {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: background 0.3s;
-}
-
-.delete-note-btn:hover {
-    background: #c82333;
-}
-
-/* Модальное окно для редактирования */
+/* Модальное окно для редактирования заметки */
 .edit-modal {
     display: none;
     position: fixed;
@@ -377,6 +266,37 @@
     margin: 0 0 20px 0;
     color: #333;
     text-align: center;
+}
+
+.edit-note-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-note-form .form-group {
+    margin-bottom: 15px;
+}
+
+.edit-note-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.edit-note-form select,
+.edit-note-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.edit-note-form textarea {
+    min-height: 120px;
+    resize: vertical;
 }
 
 .edit-modal-buttons {
@@ -412,40 +332,45 @@
     background: #5a6268;
 }
 
-/* Состояние редактирования для заметки */
-.note-item.editing {
-    border-left-color: #28a745;
-    background: #f0fff4;
+/* Сообщения */
+.messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
 }
 
-/* Форма редактирования в модальном окне */
-.edit-note-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.edit-note-form .form-group {
-    margin-bottom: 15px;
-}
-
-.edit-note-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #495057;
-}
-
-.edit-note-form select,
-.edit-note-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ced4da;
+.message {
+    padding: 15px 20px;
+    margin-bottom: 10px;
     border-radius: 5px;
-    box-sizing: border-box;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
-.edit-note-form textarea {
-    min-height: 120px;
-    resize: vertical;
-    font-family: inherit;
+.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Кнопка редактирования книги */
+.edit-book-detail-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.edit-book-detail-btn:hover {
+    background: #0056b3;
 }

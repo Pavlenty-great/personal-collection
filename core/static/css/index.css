@@ -1,3 +1,5 @@
+/* core/static/css/index.css - ОЧИЩЕННАЯ ВЕРСИЯ */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -27,60 +29,6 @@ body {
     color: #2c3e50;
     padding: 8px 0;
     border-bottom: 2px solid #3498db;
-}
-
-/* Поиск */
-.search-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 5px;
-}
-
-input[type="search"] {
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    background: #f8f9fa;
-}
-
-input[type="search"]:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-    background: white;
-}
-
-.search-group button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.search-group button:first-child {
-    background: #3498db;
-    color: white;
-}
-
-.search-group button:first-child:hover {
-    background: #2980b9;
-    transform: translateY(-1px);
-}
-
-.search-group button:last-child {
-    background: #ecf0f1;
-    color: #2c3e50;
-}
-
-.search-group button:last-child:hover {
-    background: #dfe6e9;
-    transform: translateY(-1px);
 }
 
 /* Основной контент */
@@ -346,44 +294,7 @@ ol::-webkit-scrollbar-thumb:hover {
     background: #95a5a6;
 }
 
-/* Адаптивность */
-@media (max-width: 1024px) {
-    .header,
-    .main {
-        grid-template-columns: 150px 1fr 150px;
-        gap: 15px;
-    }
-}
-
-@media (max-width: 768px) {
-    .header,
-    .main {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .header {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-    
-    .logotype {
-        margin-bottom: 10px;
-    }
-    
-    .search-group {
-        order: 3;
-        margin-top: 15px;
-    }
-    
-    .user-welcome,
-    .list {
-        order: 2;
-    }
-}
-
-
-/* core/static/css/index.css - ДОБАВЛЯЕМ СТИЛИ ДЛЯ ПОИСКА */
+/* ===== СТИЛИ ДЛЯ ПОИСКА (объединенные) ===== */
 
 /* Форма поиска */
 .search-form {
@@ -481,7 +392,7 @@ ol::-webkit-scrollbar-thumb:hover {
     color: #3498db;
 }
 
-/* Индикатор поиска при вводе */
+/* Индикатор загрузки поиска */
 .search-loading {
     position: relative;
 }
@@ -501,24 +412,6 @@ ol::-webkit-scrollbar-thumb:hover {
     100% { opacity: 0.5; }
 }
 
-/* Адаптивность для поиска */
-@media (max-width: 768px) {
-    .search-buttons {
-        flex-direction: column;
-    }
-    
-    .search-group input[type="search"] {
-        font-size: 16px; /* Увеличиваем для мобильных */
-        padding: 14px;
-    }
-    
-    .search-buttons button,
-    .clear-search-btn {
-        padding: 12px;
-        font-size: 15px;
-    }
-}
-
 /* Подсветка найденных результатов */
 .highlight {
     background-color: #fff3cd;
@@ -527,13 +420,7 @@ ol::-webkit-scrollbar-thumb:hover {
     font-weight: 500;
 }
 
-/* Сообщение о пустом результате поиска */
-.empty-collection p {
-    font-size: 16px;
-    color: #7f8c8d;
-    margin-bottom: 15px;
-}
-
+/* Кнопка "Показать все книги" в пустой коллекции */
 .empty-collection .add-first-btn {
     display: inline-block;
     background: #3498db;
@@ -550,4 +437,56 @@ ol::-webkit-scrollbar-thumb:hover {
 .empty-collection .add-first-btn:hover {
     background: #2980b9;
     transform: translateY(-1px);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .header,
+    .main {
+        grid-template-columns: 150px 1fr 150px;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header,
+    .main {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .logotype {
+        margin-bottom: 10px;
+    }
+    
+    .search-group {
+        order: 3;
+        margin-top: 15px;
+    }
+    
+    .user-welcome,
+    .list {
+        order: 2;
+    }
+    
+    /* Адаптивность для поиска */
+    .search-buttons {
+        flex-direction: column;
+    }
+    
+    .search-group input[type="search"] {
+        font-size: 16px;
+        padding: 14px;
+    }
+    
+    .search-buttons button,
+    .clear-search-btn {
+        padding: 12px;
+        font-size: 15px;
+    }
 }
