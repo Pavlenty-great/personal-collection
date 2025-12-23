@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'books',
     'notes',
+    'audit',
 ]
 
 MIDDLEWARE = [

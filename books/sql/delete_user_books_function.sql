@@ -27,10 +27,16 @@ BEGIN
         END IF;
     END LOOP;
     
+    -- Логируем операцию удаления
+    INSERT INTO audit_log (operation_type, user_id, table_name)
+    VALUES ('DELETE_BOOKS_FUNC', p_user_id, 'user_books');
+
     RETURN v_deleted_count;
     
 EXCEPTION
     WHEN OTHERS THEN
+        INSERT INTO audit_log (operation_type, user_id, table_name)
+        VALUES ('DELETE_BOOKS_ERROR', p_user_id, 'user_books');
         RAISE EXCEPTION 'Ошибка при удалении книг: %', SQLERRM;
         RETURN -1;
 END;

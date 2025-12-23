@@ -83,10 +83,17 @@ BEGIN
     VALUES (v_book_id, v_author_id)
     ON CONFLICT (book_id, author_id) DO NOTHING;
     
+    -- После успешного добавления книги логируем операцию
+    INSERT INTO audit_log (operation_type, user_id, table_name)
+    VALUES ('ADD_BOOK_FUNC', p_user_id, 'books');
+
     RETURN v_book_id;
     
 EXCEPTION
     WHEN OTHERS THEN
+        -- Логируем ошибку
+        INSERT INTO audit_log (operation_type, user_id, table_name)
+        VALUES ('ADD_BOOK_ERROR', p_user_id, 'books');
         RAISE EXCEPTION 'Ошибка при добавлении книги: %', SQLERRM;
         RETURN -1;
 END;
