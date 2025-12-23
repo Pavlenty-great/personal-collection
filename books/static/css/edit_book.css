@@ -231,3 +231,155 @@
 .current-book-info strong {
     color: #333;
 }
+
+.edit-authors-container {
+    margin-bottom: 20px;
+}
+
+/* Блок одного автора */
+.edit-author-block {
+    background: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.edit-author-block:hover {
+    border-color: #ced4da;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Заголовок блока автора */
+.edit-author-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #dee2e6;
+}
+
+.edit-author-number {
+    font-weight: 500;
+    color: #495057;
+    font-size: 14px;
+}
+
+.edit-remove-author-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.edit-remove-author-btn:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+/* Поля ввода автора */
+.edit-author-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.edit-author-field-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-author-field-group label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.edit-author-field-group input {
+    padding: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.edit-author-field-group input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+/* Сообщение об ошибке для автора */
+.edit-author-error {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Кнопка добавления автора */
+.edit-add-author-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.edit-add-author-btn:hover {
+    background: #545b62;
+    transform: translateY(-1px);
+}
+
+.edit-add-author-btn:disabled {
+    background: #adb5bd;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Анимация появления/удаления блока автора */
+.edit-author-block {
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.edit-author-block.removing {
+    animation: fadeOutDown 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+@keyframes fadeOutDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}

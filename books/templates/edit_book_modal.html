@@ -6,12 +6,13 @@
         
         <div class="current-book-info">
             <p><strong>Текущая книга:</strong> <span id="currentBookTitle"></span></p>
-            <p><strong>Текущий автор:</strong> <span id="currentBookAuthor"></span></p>
+            <p><strong>Текущие авторы:</strong> <span id="currentBookAuthors"></span></p>
         </div>
         
         <form id="editBookForm" class="edit-book-form">
             {% csrf_token %}
             <input type="hidden" id="edit_book_id" name="book_id">
+            <input type="hidden" id="edit_authors_data" name="authors_data" value="[]">
             
             <div class="edit-book-section">
                 <h3>Информация о книге</h3>
@@ -31,30 +32,20 @@
             </div>
             
             <div class="edit-book-section">
-                <h3>Информация об авторе</h3>
-                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
-                    Оставьте поля пустыми, чтобы не изменять автора
+                <h3>Авторы книги</h3>
+                <p class="authors-hint" style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                    Можно добавить до 5 авторов. Первый автор обязателен.
                 </p>
                 
-                <div class="edit-author-fields">
-                    <div class="edit-field-group">
-                        <label for="edit_author_last_name">Фамилия автора:</label>
-                        <input type="text" id="edit_author_last_name" name="author_last_name" 
-                               placeholder="Иванов" maxlength="80">
-                    </div>
-                    
-                    <div class="edit-field-group">
-                        <label for="edit_author_first_name">Имя автора:</label>
-                        <input type="text" id="edit_author_first_name" name="author_first_name" 
-                               placeholder="Иван" maxlength="80">
-                    </div>
-                    
-                    <div class="edit-field-group">
-                        <label for="edit_author_middle_name">Отчество автора:</label>
-                        <input type="text" id="edit_author_middle_name" name="author_middle_name" 
-                               placeholder="Иванович (необязательно)" maxlength="80">
-                    </div>
+                <!-- Контейнер для блоков авторов -->
+                <div class="edit-authors-container" id="editAuthorsContainer">
+                    <!-- Авторы будут добавляться через JavaScript -->
                 </div>
+                
+                <!-- Кнопка добавления автора -->
+                <button type="button" id="editAddAuthorBtn" class="edit-add-author-btn">
+                    ➕ Добавить еще автора
+                </button>
             </div>
             
             <div class="edit-book-buttons">

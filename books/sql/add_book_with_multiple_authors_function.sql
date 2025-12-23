@@ -67,6 +67,11 @@ BEGIN
         INSERT INTO books (name, year, place_publishing_id)
         VALUES (p_book_name, p_book_year, v_place_id)
         RETURNING id INTO v_book_id;
+        
+        -- СРАЗУ добавляем связь с пользователем
+        INSERT INTO user_books (user_id, book_id)
+        VALUES (p_user_id, v_book_id)
+        ON CONFLICT (user_id, book_id) DO NOTHING;
     END IF;
     
     -- 3. Обрабатываем всех авторов

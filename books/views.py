@@ -228,7 +228,7 @@ def get_book_details(request, book_id):
 
 @require_POST
 def update_book(request, book_id):
-    """Обновление книги (AJAX)"""
+    """Обновление книги с несколькими авторами (AJAX)"""
     user_id = request.session.get('user_id')
     
     if not user_id:
@@ -238,31 +238,48 @@ def update_book(request, book_id):
     book_name = request.POST.get('book_name', '').strip()
     book_year = request.POST.get('book_year', '').strip()
     place_name = request.POST.get('place_name', '').strip()
-    author_last_name = request.POST.get('author_last_name', '').strip()
-    author_first_name = request.POST.get('author_first_name', '').strip()
-    author_middle_name = request.POST.get('author_middle_name', '').strip()
+    authors_json = request.POST.get('authors_data', '[]')
     
     # Проверяем, что есть хотя бы одно поле для обновления
-    if not any([book_name, book_year, place_name, author_last_name, author_first_name]):
+    if not any([book_name, book_year, place_name]) and authors_json == '[]':
         return JsonResponse({'success': False, 'error': 'Укажите хотя бы одно поле для обновления'}, status=400)
     
     # Валидация года
-    if book_year and not book_year.isdigit() or len(book_year) != 4:
+    if book_year and (not book_year.isdigit() or len(book_year) != 4):
         return JsonResponse({'success': False, 'error': 'Год должен состоять из 4 цифр'}, status=400)
     
     try:
+        # Парсим JSON с авторами
+        import json
+        authors = json.loads(authors_json)
+        
+        if not isinstance(authors, list):
+            return JsonResponse({'success': False, 'error': 'Неверный формат данных авторов'}, status=400)
+        
+        # Фильтруем пустых авторов
+        valid_authors = []
+        for author in authors:
+            if (author.get('last_name') and author.get('first_name') and 
+                author['last_name'].strip() and author['first_name'].strip()):
+                valid_authors.append({
+                    'last_name': author['last_name'].strip(),
+                    'first_name': author['first_name'].strip(),
+                    'middle_name': author.get('middle_name', '').strip()
+                })
+        
+        # Преобразуем обратно в JSON
+        authors_json_valid = json.dumps(valid_authors, ensure_ascii=False)
+        
         with connection.cursor() as cursor:
-            # Вызываем SQL-функцию для обновления книги
+            # Используем функцию для обновления с несколькими авторами
             cursor.execute("""
-                SELECT update_user_book(%s, %s, %s, %s, %s, %s, %s, %s)
+                SELECT update_book_with_authors(%s, %s, %s, %s, %s, %s)
             """, [
                 user_id, book_id,
                 book_name if book_name else None,
                 book_year if book_year else None,
                 place_name if place_name else None,
-                author_last_name if author_last_name else None,
-                author_first_name if author_first_name else None,
-                author_middle_name if author_middle_name else None
+                authors_json_valid if valid_authors else None
             ])
             
             result = cursor.fetchone()
@@ -273,5 +290,8 @@ def update_book(request, book_id):
             else:
                 return JsonResponse({'success': False, 'error': 'Не удалось обновить книгу'}, status=400)
                 
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'Ошибка в данных авторов'}, status=400)
     except Exception as e:
+        print(f"❌ Ошибка при обновлении книги: {str(e)}")
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
