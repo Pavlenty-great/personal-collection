@@ -4,69 +4,87 @@ from django.db import connection
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 
+@require_POST
 def add_book(request):
-    # ОТЛАДКА
-    print("=" * 60)
-    print("🔍 DEBUG: Функция add_book ВЫЗВАНА")
-    print(f"   Метод запроса: {request.method}")
-    print(f"   Путь: {request.path}")
-    print(f"   Пользователь из сессии: {request.session.get('user_id')}")
-    print("=" * 60)
-    
-    # ПРОВЕРКА АВТОРИЗАЦИИ
+    """Добавление книги с несколькими авторами"""
     user_id = request.session.get('user_id')
     if not user_id:
         messages.error(request, 'Для добавления книги необходимо авторизоваться')
         return redirect('login')
     
     if request.method == 'POST':
-        print("📦 ПОЛУЧЕНЫ ДАННЫЕ ФОРМЫ:")
-        for key, value in request.POST.items():
-            print(f"   {key}: {value}")
-        print("=" * 60)
+        # Получаем данные книги
+        book_name = request.POST.get('book_name', '').strip()
+        book_year = request.POST.get('book_year', '').strip()
+        place_name = request.POST.get('place_name', '').strip()
+        authors_data = request.POST.get('authors_data', '[]')
         
-        # ПОЛУЧЕНИЕ ДАННЫХ
-        book_name = request.POST.get('bookName', '').strip()
-        book_year = request.POST.get('bookYear', '').strip()
-        place_name = request.POST.get('bookPlace', '').strip()
-        author_last = request.POST.get('authorLastName', '').strip()
-        author_first = request.POST.get('authorFirstName', '').strip()
-        author_middle = request.POST.get('authorMiddleName', '').strip()
+        print(f"📥 Получены данные для добавления книги:")
+        print(f"   Название: {book_name}")
+        print(f"   Год: {book_year}")
+        print(f"   Место: {place_name}")
+        print(f"   Авторы (JSON): {authors_data}")
         
-        # ПРОВЕРКА
-        if not all([book_name, book_year, place_name, author_last, author_first]):
-            messages.error(request, 'Заполните все обязательные поля')
+        # Валидация
+        if not book_name:
+            messages.error(request, 'Введите название книги')
             return redirect('index')
         
-        # ВЫЗОВ SQL-ФУНКЦИИ
+        if not book_year or not book_year.isdigit() or len(book_year) != 4:
+            messages.error(request, 'Введите корректный год издания (4 цифры)')
+            return redirect('index')
+        
+        if not place_name:
+            messages.error(request, 'Введите место публикации')
+            return redirect('index')
+        
         try:
+            # Парсим JSON с авторами
+            import json
+            authors = json.loads(authors_data)
+            
+            if not isinstance(authors, list):
+                raise ValueError("Неверный формат данных авторов")
+            
+            # Фильтруем пустых авторов
+            valid_authors = []
+            for author in authors:
+                if (author.get('last_name') and author.get('first_name') and 
+                    author['last_name'].strip() and author['first_name'].strip()):
+                    valid_authors.append({
+                        'last_name': author['last_name'].strip(),
+                        'first_name': author['first_name'].strip(),
+                        'middle_name': author.get('middle_name', '').strip()
+                    })
+            
+            if not valid_authors:
+                messages.error(request, 'Добавьте хотя бы одного автора')
+                return redirect('index')
+            
+            print(f"✅ Найдено {len(valid_authors)} валидных авторов")
+            
+            # Преобразуем обратно в JSON
+            authors_json = json.dumps(valid_authors, ensure_ascii=False)
+            
             with connection.cursor() as cursor:
-                cursor.execute("SELECT add_book(%s, %s, %s, %s, %s, %s, %s)", 
-                            [user_id, book_name, book_year, place_name, 
-                            author_last, author_first, author_middle])
+                # Используем новую функцию с несколькими авторами
+                cursor.execute("""
+                    SELECT add_book_with_multiple_authors(%s, %s, %s, %s, %s)
+                """, [user_id, book_name, book_year, place_name, authors_json])
                 
                 result = cursor.fetchone()
                 book_id = result[0] if result else -1
                 
                 if book_id > 0:
-                    # Проверим, была ли книга добавлена или уже существовала
-                    cursor.execute("""
-                        SELECT COUNT(*) 
-                        FROM user_books 
-                        WHERE user_id = %s AND book_id = %s
-                    """, [user_id, book_id])
-                    
-                    count = cursor.fetchone()[0]
-                    
-                    if count == 1:
-                        messages.success(request, f'✅ Книга "{book_name}" добавлена!')
-                    else:
-                        messages.info(request, f'ℹ️ Книга "{book_name}" уже есть в вашей коллекции')
-                        
+                    messages.success(request, f'✅ Книга "{book_name}" добавлена с {len(valid_authors)} авторами!')
                 else:
                     messages.error(request, '❌ Ошибка при добавлении книги')
-                
+                    
+        except json.JSONDecodeError:
+            messages.error(request, '❌ Ошибка в данных авторов')
+            return redirect('index')
         except Exception as e:
+            print(f"❌ Ошибка: {str(e)}")
             messages.error(request, f'❌ Ошибка: {str(e)}')
         
         return redirect('index')

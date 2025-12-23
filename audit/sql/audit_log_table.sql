@@ -1,7 +1,7 @@
 CREATE TABLE audit_log (
     id SERIAL PRIMARY KEY,
     operation_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    operation_type VARCHAR(20) NOT NULL,
+    operation_type VARCHAR(50) NOT NULL,
     user_id INTEGER NOT NULL,
     table_name VARCHAR(50) NOT NULL
 );
