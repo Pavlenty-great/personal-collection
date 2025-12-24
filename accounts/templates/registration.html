@@ -27,7 +27,7 @@
         </div>
         {% endif %}
 
-        <form action="" method="POST">
+        <form method="POST">
             {% csrf_token %}
 
             <label for="login">Логин:</label>
@@ -37,6 +37,7 @@
             <label for="email">Электронная почта:</label>
             <input type="email" id="email" name="email" 
                    placeholder="example@mail.com" required>
+            <p class="password-hint">Пример правильного email: user@example.com</p>
 
             <label for="password">Пароль:</label>
             <input type="password" id="password" name="password" 
@@ -51,5 +52,6 @@
             <a href="{% url 'login' %}">Войти</a>
         </p>
     </div>
+    
 </body>
 </html>

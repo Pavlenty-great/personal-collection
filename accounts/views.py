@@ -9,11 +9,18 @@ def registration(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         
+        # Простая проверка email
+        if '@' not in email or '.' not in email:
+            return render(request, 'registration.html', 
+                         {'Error': 'Введите корректный email адрес (например: user@example.com)'})
+        
         if User.objects.filter(login=login).exists():
-            return render(request, 'registration.html', {'Ошибка': 'Данный логин уже занят'})
+            return render(request, 'registration.html', 
+                         {'Error': 'Данный логин уже занят'})
         
         if User.objects.filter(email=email).exists():
-            return render(request, 'registration.html', {'Ошибка': 'Данный email уже занят'})
+            return render(request, 'registration.html', 
+                         {'Error': 'Данный email уже занят'})
 
         try:
             user = User.objects.create(
@@ -25,7 +32,8 @@ def registration(request):
             return redirect('index')
 
         except Exception as e:
-            return render(request, 'registration.html', {'Error': f'Ошибка при регистрации: {str(e)}'})
+            return render(request, 'registration.html', 
+                         {'Error': f'Ошибка при регистрации: {str(e)}'})
     
     return render(request, 'registration.html')
 
