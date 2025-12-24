@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 
 def index(request):
@@ -7,6 +7,8 @@ def index(request):
     
     user_books = []
     search_query = request.GET.get('search', '').strip()
+    if not user_id:
+        return redirect('login')
     
     if user_id:
         try:
