@@ -31,7 +31,7 @@
     <div class="notes-section">
         <!-- Просмотр существующих заметок -->
         <div class="notes-view-section">
-            <h2 class="section-title">Заметки к книге ({{ notes|length }})</h2>
+            <h2 class="section-title">Заметки к книге ({{ notes|length }}):</h2>
             
             <!-- Форма для удаления заметок -->
             <form id="deleteNotesForm" method="POST" action="{% url 'delete_notes' book.book_id %}">

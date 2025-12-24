@@ -51,16 +51,17 @@
         <div class="list">
             <h3>
                 {% if search_query %}
-                    Результаты поиска ({{ user_books|length }})
+                    Результаты поиска ({{ user_books|length }}):
                 {% else %}
-                    Ваши книги ({{ user_books|length }})
+                    Ваши книги ({{ user_books|length }}):
                 {% endif %}
             </h3>
             
-            <form id="deleteBooksForm" method="POST" action="{% url 'delete_books' %}">
-                {% csrf_token %}
-                
-                {% if user_books %}
+            {% if user_books %}
+                <!-- Форма удаления книг (только если есть книги) -->
+                <form id="deleteBooksForm" method="POST" action="{% url 'delete_books' %}">
+                    {% csrf_token %}
+                    
                     <ol>
                         {% for book in user_books %}
                         <li class="book-item">
@@ -104,28 +105,33 @@
                             Удалить выбранные
                         </button>
                     </div>
-                    
-                {% else %}
-                    <div class="empty-collection">
-                        {% if search_query %}
-                            <p>📭 По запросу "{{ search_query }}" ничего не найдено</p>
-                            <a href="{% url 'index' %}" class="add-first-btn">
-                                Показать все книги
-                            </a>
-                        {% else %}
-                            <p>📚 У вас пока нет книг в коллекции</p>
-                            <button id="openModalBtn" class="add-first-btn">
-                                Добавьте первую книгу!
-                            </button>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </form>
+                </form>
+                
+            {% else %}
+                <!-- Блок для пустой коллекции (ВНЕ формы удаления!) -->
+                <div class="empty-collection">
+                    {% if search_query %}
+                        <p>📭 По запросу "{{ search_query }}" ничего не найдено</p>
+                        <a href="{% url 'index' %}" class="add-first-btn">
+                            Показать все книги
+                        </a>
+                    {% else %}
+                        <p>📚 У вас пока нет книг в коллекции</p>
+                        <!-- Кнопка ВНЕ формы - теперь это просто кнопка, а не часть формы -->
+                        <button type="button" id="openModalBtnEmpty" class="add-first-btn">
+                            Добавьте первую книгу!
+                        </button>
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
 
-        <button id="openModalBtn">
-            📥 Добавить книгу
-        </button>
+        <!-- Боковая кнопка добавления книги (всегда видна) -->
+        <div>
+            <button type="button" id="openModalBtn" class="add-book-btn">
+                📥 Добавить книгу
+            </button>
+        </div>
         
         {% include 'add_book.html' %}
     </div>
@@ -144,5 +150,32 @@
     <script src="{% static 'js/books.js' %}"></script>
     <script src="{% static 'js/add_book.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
+    
+    <!-- Дополнительный скрипт для обработки обеих кнопок -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Обработка основной кнопки добавления книги (в боковой панели)
+        const mainAddBtn = document.getElementById('openModalBtn');
+        if (mainAddBtn) {
+            mainAddBtn.addEventListener('click', function() {
+                window.openAddBookModal();
+            });
+        }
+        
+        // Обработка кнопки "Добавьте первую книгу" в пустой коллекции
+        const emptyAddBtn = document.getElementById('openModalBtnEmpty');
+        if (emptyAddBtn) {
+            emptyAddBtn.addEventListener('click', function() {
+                window.openAddBookModal();
+            });
+        }
+        
+        // Кнопка "Показать все книги" при поиске
+        const showAllBtn = document.querySelector('.add-first-btn[href]');
+        if (showAllBtn) {
+            // Это обычная ссылка, ничего не делаем
+        }
+    });
+    </script>
 </body>
 </html>
